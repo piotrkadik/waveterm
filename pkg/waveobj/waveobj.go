@@ -84,7 +84,7 @@ func RegisterType[T WaveObj](otype OType) {
 func NewByOType(otype OType) (WaveObj, error) {
 	t, ok := registry[otype]
 	if !ok {
-		return nil, fmt.Errorf("waveobj: unknown otype %q", otype)
+		return nil, fmt.Errorf("waveobj: unknown otype %q (registered types: %v)", otype, GetOTypes())
 	}
 	return reflect.New(t).Interface().(WaveObj), nil
 }
