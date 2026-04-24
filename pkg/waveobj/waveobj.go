@@ -8,6 +8,7 @@ package waveobj
 import (
 	"fmt"
 	"reflect"
+	"sort"
 )
 
 // OType is the object type identifier string (e.g. "tab", "block", "workspace").
@@ -83,11 +84,13 @@ func NewByOType(otype OType) (WaveObj, error) {
 	return reflect.New(t).Interface().(WaveObj), nil
 }
 
-// GetOTypes returns all registered OType strings.
+// GetOTypes returns all registered OType strings in sorted order for
+// deterministic iteration (useful for debugging and tests).
 func GetOTypes() []OType {
 	types := make([]OType, 0, len(registry))
 	for k := range registry {
 		types = append(types, k)
 	}
+	sort.Strings(types)
 	return types
 }
