@@ -65,11 +65,16 @@ var registry = map[OType]reflect.Type{}
 // RegisterType registers a WaveObj implementation type so it can be
 // instantiated by OType during deserialization.
 // T must be a pointer type that implements WaveObj.
+// Note: panics on duplicate registration to catch accidental double-registration
+// at startup rather than silently overwriting an existing entry.
 func RegisterType[T WaveObj](otype OType) {
 	var zero T
 	t := reflect.TypeOf(zero)
 	if t.Kind() != reflect.Ptr {
 		panic(fmt.Sprintf("waveobj.RegisterType: %T must be a pointer type", zero))
+	}
+	if _, exists := registry[otype]; exists {
+		panic(fmt.Sprintf("waveobj.RegisterType: otype %q is already registered", otype))
 	}
 	registry[otype] = t.Elem()
 }
