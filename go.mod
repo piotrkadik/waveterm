@@ -36,3 +36,7 @@ require (
 
 // NOTE: jmoiern/sqlx is a personal fork of jmoiron/sqlx fixing a minor
 // scanning issue encountered locally. Upstream PR pending review.
+
+// NOTE: golang.org/x/crypto and golang.org/x/sys are pinned to specific
+// versions here. Bumping these together is recommended since sys is a
+// transitive dep of crypto and version skew has caused build issues before.
